@@ -80,17 +80,17 @@ class SystemOfPlanets:
         self.positions_in_time = [np.copy(self.positions)]
     
     
-    def calculate_distances(self):
-        for i in range(self.count):
-            for j in range(i+1, self.count):
-                diff = self.positions[j] - self.positions[i]
-                dist = np.linalg.norm(diff)
-                direction = diff / dist
-
-                self.distances[i][j] = dist
-                self.distances[j][i] = dist
-                self.directions[i][j] = direction
-                #self.directions[j][i] = -direction
+#    def calculate_distances(self):
+#        for i in range(self.count):
+#            for j in range(i+1, self.count):
+#                diff = self.positions[j] - self.positions[i]
+#                dist = np.linalg.norm(diff)
+#                direction = diff / dist
+#
+#                self.distances[i][j] = dist
+#                self.distances[j][i] = dist
+#                self.directions[i][j] = direction
+#                #self.directions[j][i] = -direction
                 
 
     def calculate_distances_np(self):
@@ -102,13 +102,13 @@ class SystemOfPlanets:
         self.directions = np.divide(-diffs, self.distances[:,:,np.newaxis], out=np.zeros_like(diffs), where=self.distances[:,:,np.newaxis]!=[0])
 
 
-    def calculate_forces(self):
-        for i in range(self.count):
-            for j in range(i+1, self.count):
-                G = 6.6743e-11
-                force = (G*((self.masses[i] * self.masses[j])/((self.distances[i][j])**2))) * self.directions[i][j]
-                self.forces[i][j] = force
-                self.forces[j][i] = -force
+#    def calculate_forces(self):
+#        for i in range(self.count):
+#            for j in range(i+1, self.count):
+#                G = 6.6743e-11
+#                force = (G*((self.masses[i] * self.masses[j])/((self.distances[i][j])**2))) * self.directions[i][j]
+#                self.forces[i][j] = force
+#                self.forces[j][i] = -force
 
     def calculate_forces_np(self):
         mass_products = self.masses[:,None] * self.masses
@@ -118,12 +118,12 @@ class SystemOfPlanets:
         self.forces = force_vectors
         
         
-    def calculate_accelerations(self):
-        for i in range(self.count):
-            total_force = np.sum(self.forces[i],axis=(0))
-
-
-            self.accels[i] = total_force / self.masses[i]
+#    def calculate_accelerations(self):
+#        for i in range(self.count):
+#            total_force = np.sum(self.forces[i],axis=(0))
+#
+#
+#            self.accels[i] = total_force / self.masses[i]
 
     def calculate_accelerations_np(self):
        total_forces = np.sum(self.forces,axis=(1))
